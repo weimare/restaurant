@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NOIR GOURMET | Атмосфера и гастрономия</title>
+    <title>NOIR GOURMET | Доставка и бронирование</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
             scroll-behavior: smooth;
         }
 
-        /* Тёмная тема с благородными акцентами */
+        /* Тёмная тема */
         :root {
             --dark-bg: #0a0c10;
             --surface-dark: #111318;
@@ -31,22 +31,20 @@
             --text-muted: #aaaeb9;
         }
 
-        /* Контейнер и сетка */
         .container {
             max-width: 1300px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
-        /* Шапка и навигация */
+        /* Шапка */
         header {
-            background: rgba(10, 12, 16, 0.92);
+            background: rgba(10, 12, 16, 0.95);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-dim);
             position: sticky;
             top: 0;
             z-index: 100;
-            width: 100%;
         }
 
         .navbar {
@@ -61,7 +59,6 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 600;
-            letter-spacing: 2px;
             background: linear-gradient(135deg, #fff 30%, var(--accent-gold) 80%);
             background-clip: text;
             -webkit-background-clip: text;
@@ -73,6 +70,7 @@
             flex-wrap: wrap;
             gap: 0.5rem;
             list-style: none;
+            align-items: center;
         }
 
         .nav-btn {
@@ -99,29 +97,49 @@
             box-shadow: 0 0 8px var(--accent-glow);
         }
 
-        /* Страницы (вкладки) */
+        /* Корзина */
+        .cart-icon {
+            position: relative;
+            background: #1f232c;
+            border-radius: 40px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid var(--border-dim);
+        }
+        .cart-icon:hover {
+            border-color: var(--accent-gold);
+        }
+        .cart-count {
+            background: var(--accent-gold);
+            color: #0a0c10;
+            border-radius: 30px;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        /* Страницы */
         .page {
             display: none;
             animation: fadeIn 0.3s ease-out;
-            padding: 2.5rem 0 4rem;
+            padding: 2rem 0 4rem;
         }
-
         .page.active-page {
             display: block;
         }
-
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
         }
 
-        /* Заголовки секций */
         .section-title {
             font-size: 2.5rem;
             font-weight: 500;
@@ -129,14 +147,12 @@
             border-left: 4px solid var(--accent-gold);
             padding-left: 1.2rem;
         }
-
         .section-sub {
             color: var(--text-muted);
-            margin-bottom: 2.5rem;
-            font-size: 1.1rem;
+            margin-bottom: 2rem;
         }
 
-        /* Сетка для меню и карт */
+        /* Сетка меню */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -144,61 +160,59 @@
             margin-top: 1.5rem;
         }
 
+        /* Карточка + анимации (увеличение, тень) */
         .menu-card {
             background: var(--card-bg);
             border-radius: 24px;
             overflow: hidden;
             border: 1px solid var(--border-dim);
-            transition: transform 0.2s, border-color 0.2s;
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
         }
-
         .menu-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.6);
             border-color: var(--accent-gold);
         }
 
-        /* ПЛЕЙСХОЛДЕРЫ ДЛЯ ФОТО — пустые блоки, куда легко вставить картинку */
+        /* Фото с эффектами увеличения внутри */
         .img-placeholder {
-            width: 100%;
-            background: #1f232c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6c717e;
-            font-size: 0.85rem;
-            text-align: center;
-            border-bottom: 1px solid var(--border-dim);
             position: relative;
-            transition: all 0.2s;
+            overflow: hidden;
+            background: #1f232c;
+        }
+        .img-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .menu-card:hover .img-placeholder img {
+            transform: scale(1.08);
+        }
+        /* затемнение и текст по желанию */
+        .img-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0);
+            transition: background 0.3s;
+            pointer-events: none;
+        }
+        .menu-card:hover .img-placeholder::after {
+            background: rgba(0,0,0,0.2);
         }
 
-        /* Размеры под разные карточки */
-        .img-placeholder.landscape {
-            aspect-ratio: 16 / 9;
-        }
-
-        .img-placeholder.square {
-            aspect-ratio: 1 / 1;
-        }
-
-        .img-placeholder.portrait {
-            aspect-ratio: 3 / 4;
-        }
-
-        .placeholder-label {
-            background: rgba(0,0,0,0.6);
-            padding: 6px 12px;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            font-family: monospace;
-            backdrop-filter: blur(4px);
-            letter-spacing: 0.5px;
-        }
+        .img-placeholder.landscape { aspect-ratio: 16 / 9; }
+        .img-placeholder.square { aspect-ratio: 1 / 1; }
+        .img-placeholder.portrait { aspect-ratio: 3 / 4; }
 
         .card-content {
             padding: 1.2rem 1.5rem 1.5rem;
         }
-
         .dish-title {
             font-size: 1.3rem;
             font-weight: 600;
@@ -207,38 +221,47 @@
             flex-wrap: wrap;
             margin-bottom: 0.5rem;
         }
-
         .price {
             color: var(--accent-gold);
         }
-
         .desc {
             color: var(--text-muted);
             font-size: 0.9rem;
-            margin-top: 0.5rem;
+            margin: 0.5rem 0 1rem;
+        }
+        .btn-order {
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            width: 100%;
+        }
+        .btn-order:hover {
+            background: var(--accent-gold);
+            color: #0a0c10;
         }
 
-        /* Бронирование (форма) */
+        /* Бронирование */
         .booking-card {
             background: var(--surface-dark);
             border-radius: 28px;
             padding: 2rem;
             border: 1px solid var(--border-dim);
             max-width: 700px;
-            margin: 2rem auto 0;
+            margin: 2rem auto;
         }
-
         .form-group {
             margin-bottom: 1.5rem;
         }
-
         label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: var(--text-light);
         }
-
         input, select, textarea {
             width: 100%;
             padding: 0.9rem 1rem;
@@ -247,15 +270,11 @@
             border-radius: 16px;
             color: white;
             font-family: inherit;
-            transition: 0.2s;
         }
-
-        input:focus, select:focus, textarea:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: var(--accent-gold);
-            box-shadow: 0 0 0 2px rgba(201, 160, 61, 0.2);
         }
-
         .btn-gold {
             background: var(--accent-gold);
             border: none;
@@ -263,73 +282,47 @@
             font-weight: bold;
             border-radius: 40px;
             cursor: pointer;
-            font-size: 1rem;
-            transition: 0.2s;
-            color: #0a0c10;
             width: 100%;
+            color: #0a0c10;
         }
 
-        .btn-gold:hover {
-            background: #b88b2c;
-            transform: scale(0.98);
-        }
-
-        /* Сезонное меню — особый акцент */
-        .seasonal-highlight {
-            background: linear-gradient(145deg, #151a24, #0f1219);
-            border-left: 4px solid var(--accent-gold);
-            padding: 0.8rem 1.5rem;
-            border-radius: 20px;
+        /* Страница доставки + корзина */
+        .cart-summary {
+            background: var(--surface-dark);
+            border-radius: 28px;
+            padding: 1.5rem;
             margin-bottom: 2rem;
+            border: 1px solid var(--border-dim);
         }
-
-        /* Барная карта — напитки */
-        .drink-category {
-            margin-top: 2rem;
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-dim);
         }
-
-        .drink-category h3 {
-            font-size: 1.7rem;
-            margin-bottom: 1rem;
-            font-weight: 400;
-            letter-spacing: -0.3px;
+        .delivery-form {
+            background: var(--surface-dark);
+            border-radius: 28px;
+            padding: 1.8rem;
         }
-
-        hr {
-            border-color: var(--border-dim);
+        .total-price {
+            font-size: 1.5rem;
             margin: 1rem 0;
+            text-align: right;
+            color: var(--accent-gold);
         }
-
         footer {
             border-top: 1px solid var(--border-dim);
             margin-top: 3rem;
             padding: 2rem 0;
             text-align: center;
             color: #5b5f6b;
-            font-size: 0.85rem;
         }
-
         @media (max-width: 680px) {
-            .navbar {
-                flex-direction: column;
-                align-items: stretch;
-                text-align: center;
-            }
-            .nav-links {
-                justify-content: center;
-            }
-            .section-title {
-                font-size: 1.9rem;
-            }
-        }
-
-        /* метка для фото-заглушек */
-        .img-placeholder i {
-            font-style: normal;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
+            .navbar { flex-direction: column; align-items: stretch; }
+            .nav-links { justify-content: center; }
+            .section-title { font-size: 1.9rem; }
         }
     </style>
 </head>
@@ -340,10 +333,14 @@
         <div class="navbar">
             <div class="logo">⟡ NOIR GOURMET ⟡</div>
             <ul class="nav-links">
-                <li><button class="nav-btn active" data-page="menu">🍽️ Меню</button></li>
-                <li><button class="nav-btn" data-page="seasonal">🌿 Сезонное меню</button></li>
+                <li><button class="nav-btn" data-page="menu">🍽️ Меню</button></li>
+                <li><button class="nav-btn" data-page="seasonal">🌿 Сезонное</button></li>
                 <li><button class="nav-btn" data-page="bar">🥂 Барная карта</button></li>
-                <li><button class="nav-btn" data-page="booking">📅 Забронировать</button></li>
+                <li><button class="nav-btn" data-page="booking">📅 Бронировать</button></li>
+                <li><button class="nav-btn" data-page="delivery">🚚 Доставка</button></li>
+                <li><div class="cart-icon" id="cartIcon">
+                    🛒 <span id="cartCount" class="cart-count">0</span>
+                </div></li>
             </ul>
         </div>
     </div>
@@ -351,311 +348,281 @@
 
 <main>
     <div class="container">
-        <!-- СТРАНИЦА: ОСНОВНОЕ МЕНЮ -->
+        <!-- ================= СТРАНИЦА МЕНЮ ================= -->
         <div id="menu" class="page active-page">
             <h2 class="section-title">Основное меню</h2>
-            <p class="section-sub">Шеф-повар представляет авторскую кухню. Вдохновение — сезоны и локальные продукты.</p>
-            
-            <div class="menu-grid">
-                <!-- КАРТОЧКА 1 с местом для фото-->
-                <div class="menu-card">
-                    <div class="img-placeholder landscape">
-                        <i class="placeholder-label">📷ФОТО (16:9)<br>пример: «тартар из говядины»</i>
-                    </div>
-                    <div class="card-content">
-                        <div class="dish-title">Тартар из говядины <span class="price">1350 ₽</span></div>
-                        <div class="desc">Мраморная говядина, каперсы, лук-шалот, перечный соус, крутон.</div>
-                    </div>
-                </div>
-                <!-- КАРТОЧКА 2 -->
-                <div class="menu-card">
-                    <div class="img-placeholder landscape">
-                        <i class="placeholder-label">📷ФОТО (16:9)<br>«утиная грудка с соусом»</i>
-                    </div>
-                    <div class="card-content">
-                        <div class="dish-title">Утиная грудка <span class="price">1890 ₽</span></div>
-                        <div class="desc">Соус из вишни и красного вина, картофельный гратен, тимьян.</div>
-                    </div>
-                </div>
-                <!-- КАРТОЧКА 3 -->
-                <div class="menu-card">
-                    <div class="img-placeholder landscape">
-                        <i class="placeholder-label">📷 ФОТО (16:9) <br>«ризотто с трюфелем»</i>
-                    </div>
-                    <div class="card-content">
-                        <div class="dish-title">Ризотто с трюфелем <span class="price">1550 ₽</span></div>
-                        <div class="desc">Арборио, пармезан, черный трюфель, масло из петрушки.</div>
-                    </div>
-                </div>
-                <!-- КАРТОЧКА 4 -->
-                <div class="menu-card">
-                    <div class="img-placeholder landscape">
-                        <i class="placeholder-label">📷 ВАШЕ ФОТО<br>«десерт шоколадный фондан»</i>
-                    </div>
-                    <div class="card-content">
-                        <div class="dish-title">Шоколадный фондан <span class="price">650 ₽</span></div>
-                        <div class="desc">С мороженым из солёной карамели и ягодами.</div>
-                    </div>
-                </div>
-                <!-- еще блюда для примера -->
-                <div class="menu-card">
-                    <div class="img-placeholder landscape">
-                        <i class="placeholder-label">📷 ФОТО (16:9) <br>«гребешки на гриле»</i>
-                    </div>
-                    <div class="card-content">
-                        <div class="dish-title">Гребешки на гриле <span class="price">2100 ₽</span></div>
-                        <div class="desc">Соус из манго и лайма, микрозелень, икра лимона.</div>
-                    </div>
-                </div>
-                <div class="menu-card">
-                    <div class="img-placeholder landscape">
-                        <i class="placeholder-label">📷 ФОТО (16:9) <br>«стейк рибай»</i>
-                    </div>
-                    <div class="card-content">
-                        <div class="dish-title">Рибай 350г <span class="price">2850 ₽</span></div>
-                        <div class="desc">Картофель фонте, соус демиглас, спаржа гриль.</div>
-                    </div>
-                </div>
-            </div>
-            <div style="margin-top: 2rem; background: #11161f; padding: 0.8rem; border-radius: 20px; text-align: center; font-size: 0.85rem;">
-            </div>
+            <p class="section-sub">Добавляйте блюда в корзину — оформите доставку на странице «Доставка».</p>
+            <div class="menu-grid" id="menuGrid"></div>
         </div>
 
-        <!-- СТРАНИЦА: СЕЗОННОЕ МЕНЮ -->
+        <!-- СЕЗОННОЕ МЕНЮ -->
         <div id="seasonal" class="page">
-            <h2 class="section-title">🌱 Сезонное меню (осень-зима 2025)</h2>
-            <div class="seasonal-highlight">
-                ✨ Каждый месяц шеф-повар обновляет позиции из свежих фермерских продуктов. Фотографии блюд отражают текущее настроение.
-            </div>
-            <div class="menu-grid">
-                <!-- сезонные карточки с плейсхолдерами для фото -->
-                <div class="menu-card">
-                    <div class="img-placeholder square">
-                        <i class="placeholder-label">🍂 СЕЗОННОЕ ФОТО (1:1)<br>тыквенный крем-суп</i>
-                    </div>
-                    <div class="card-content">
-                        <div class="dish-title">Тыквенный крем-суп <span class="price">690 ₽</span></div>
-                        <div class="desc">Семена тыквы, сливки, мускатный орех, гренки с чесноком.</div>
-                    </div>
-                </div>
-                <div class="menu-card">
-                    <div class="img-placeholder square">
-                        <i class="placeholder-label">🍂 ФОТО 1:1<br>«борщ с перепелкой»</i>
-                    </div>
-                    <div class="card-content">
-                        <div class="dish-title">Борщ с перепелкой <span class="price">890 ₽</span></div>
-                        <div class="desc">Томленый бульон, паштет из печени, сметана, мини-пончики.</div>
-                    </div>
-                </div>
-                <div class="menu-card">
-                    <div class="img-placeholder square">
-                        <i class="placeholder-label">🍂 ФОТО (квадрат)<br>«оленина с брусникой»</i>
-                    </div>
-                    <div class="card-content">
-                        <div class="dish-title">Оленина с брусникой <span class="price">2450 ₽</span></div>
-                        <div class="desc">Соус из можжевельника, пюре из сельдерея, маринованная брусника.</div>
-                    </div>
-                </div>
-                <div class="menu-card">
-                    <div class="img-placeholder square">
-                        <i class="placeholder-label">🍁 ФОТО (1:1)<br>«штрудель из дикой груши»</i>
-                    </div>
-                    <div class="card-content">
-                        <div class="dish-title">Штрудель из дикой груши <span class="price">580 ₽</span></div>
-                        <div class="desc">Ванильное мороженое, карамельный соус, мята.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="seasonal-highlight" style="margin-top: 20px;">
-            </div>
+            <h2 class="section-title">🌱 Сезонное меню</h2>
+            <div class="menu-grid" id="seasonalGrid"></div>
         </div>
 
-        <!-- СТРАНИЦА: БАРНАЯ КАРТА -->
+        <!-- БАРНАЯ КАРТА -->
         <div id="bar" class="page">
             <h2 class="section-title">🍸 Барная карта</h2>
-            <p class="section-sub">Авторские коктейли, коллекционные вина и премиальный алкоголь.</p>
-            
-            <div class="drink-category">
-                <h3>✨ СИГНАТУРНЫЕ КОКТЕЙЛИ</h3>
-                <div class="menu-grid">
-                    <div class="menu-card">
-                        <div class="img-placeholder portrait">
-                            <i class="placeholder-label">🥃 ФОТО (3:4)<br>«Нуар Негрони»</i>
-                        </div>
-                        <div class="card-content">
-                            <div class="dish-title">Нуар Негрони <span class="price">750 ₽</span></div>
-                            <div class="desc">Джин, кампari, красный вермут, апельсиновая цедра.</div>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="img-placeholder portrait">
-                            <i class="placeholder-label">🍸 ФОТО (3:4)<br>«Лавандовый сауэр»</i>
-                        </div>
-                        <div class="card-content">
-                            <div class="dish-title">Лавандовый сауэр <span class="price">690 ₽</span></div>
-                            <div class="desc">Бурбон, лавандовый сироп, лимон, яичный белок.</div>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="img-placeholder portrait">
-                            <i class="placeholder-label">🍹 ВАШЕ ФОТО (3:4)<br>«Матча эспрессо мартини»</i>
-                        </div>
-                        <div class="card-content">
-                            <div class="dish-title">Матча эспрессо мартини <span class="price">820 ₽</span></div>
-                            <div class="desc">Водка, кофе матча, ликёр калуа, кофейные зерна.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="drink-category">
-                <h3>🍷 ВИННАЯ КАРТА (по бокалам)</h3>
-                <div class="menu-grid">
-                    <div class="menu-card">
-                        <div class="img-placeholder landscape">
-                            <i class="placeholder-label">🍷 ФОТО (16:9)<br>«Шардоне, Франция»</i>
-                        </div>
-                        <div class="card-content">
-                            <div class="dish-title">Chablis AOC <span class="price">950 ₽</span></div>
-                            <div class="desc">Белое, сухое. Цитрус, минералы, долгое послевкусие.</div>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="img-placeholder landscape">
-                            <i class="placeholder-label">🍷 ФОТО (16:9)<br>«Кьянти Классико»</i>
-                        </div>
-                        <div class="card-content">
-                            <div class="dish-title">Chianti Classico Riserva <span class="price">1100 ₽</span></div>
-                            <div class="desc">Красное, тосканские ноты вишни, танины.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="drink-category">
-                <h3>🍺 КРАФТОВОЕ ПИВО & АПЕРИТИВЫ</h3>
-                <div class="menu-grid">
-                    <div class="menu-card">
-                        <div class="img-placeholder square">
-                            <i class="placeholder-label">🍺 ФОТО (1:1)<br>«индийский пейл эль»</i>
-                        </div>
-                        <div class="card-content">
-                            <div class="dish-title">IPA «Hop Noir» <span class="price">490 ₽</span></div>
-                            <div class="desc">Хмельной аромат, цитрусовая горчинка.</div>
-                        </div>
-                    </div>
-                    <div class="menu-card">
-                        <div class="img-placeholder square">
-                            <i class="placeholder-label">🥂 ФОТО (1:1)<br>«домашний лимонад»</i>
-                        </div>
-                        <div class="card-content">
-                            <div class="dish-title">Лимонад с базиликом <span class="price">380 ₽</span></div>
-                            <div class="desc">Безалкогольный, имбирь, лайм, свежая мята.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="menu-grid" id="barGrid"></div>
         </div>
 
-        <!-- СТРАНИЦА: БРОНИРОВАНИЕ КО ВРЕМЕНИ -->
+        <!-- БРОНИРОВАНИЕ -->
         <div id="booking" class="page">
             <h2 class="section-title">Забронировать столик</h2>
-            <p class="section-sub">Выберите удобную дату и время — наш менеджер свяжется с вами для подтверждения.</p>
-            <div class="img-placeholder landscape" style="border-radius: 28px; margin-bottom: 1.5rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-                <i class="placeholder-label">ФОТО ИНТЕРЬЕРА / ЗАЛА</i>
+            <div class="img-placeholder landscape" style="border-radius: 28px; margin-bottom: 1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                <img src="https://placehold.co/1200x675/1f232c/c9a03d?text=Restaurant+Interior+Photo" alt="интерьер" style="width:100%; height:100%; object-fit:cover">
             </div>
             <div class="booking-card">
                 <form id="reserveForm">
-                    <div class="form-group">
-                        <label>Ваше имя</label>
-                        <input type="text" placeholder="Александра" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Телефон</label>
-                        <input type="tel" placeholder="+7 (999) 123-45-67" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Количество гостей</label>
-                        <select>
-                            <option>1 гость</option>
-                            <option>2 гостя</option>
-                            <option>3 гостя</option>
-                            <option>4 гостя</option>
-                            <option>5-6 гостей</option>
-                            <option>7-10 гостей</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Дата и время</label>
-                        <input type="datetime-local" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Пожелания (особые случаи, аллергии)</label>
-                        <textarea rows="2" placeholder="Укажите, если важен приватный уголок или отмечаете событие..."></textarea>
-                    </div>
-                    <button type="submit" class="btn-gold">📞 Отправить бронирование</button>
-                    <p style="font-size: 0.7rem; margin-top: 1rem; text-align: center; color:#6f7583;">Нажимая, вы соглашаетесь с условиями брони. Мы перезвоним за 30 минут.</p>
+                    <div class="form-group"><label>Имя</label><input type="text" required></div>
+                    <div class="form-group"><label>Телефон</label><input type="tel" required></div>
+                    <div class="form-group"><label>Гостей</label><select><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></div>
+                    <div class="form-group"><label>Дата и время</label><input type="datetime-local" required></div>
+                    <div class="form-group"><label>Пожелания</label><textarea rows="2"></textarea></div>
+                    <button type="submit" class="btn-gold">Отправить бронь</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ================= СТРАНИЦА ДОСТАВКА + КОРЗИНА ================= -->
+        <div id="delivery" class="page">
+            <h2 class="section-title">🚚 Доставка еды</h2>
+            <p class="section-sub">Ваши выбранные блюда — оплата при получении или картой онлайн (симуляция).</p>
+            <div class="cart-summary" id="cartSummary">
+                <h3>🛒 Ваш заказ</h3>
+                <div id="cartItemsList"></div>
+                <div class="total-price" id="totalPrice">Итого: 0 ₽</div>
+                <button id="clearCartBtn" class="btn-order" style="border-color:#a55; color:#a55;">Очистить корзину</button>
+            </div>
+            <div class="delivery-form">
+                <h3>Адрес доставки</h3>
+                <form id="deliveryForm">
+                    <div class="form-group"><label>Город</label><input type="text" id="city" placeholder="Санкт-Петербург" required></div>
+                    <div class="form-group"><label>Район</label><input type="text" id="district" placeholder="Центральный"></div>
+                    <div class="form-group"><label>Улица</label><input type="text" id="street" placeholder="Невский пр." required></div>
+                    <div class="form-group"><label>Дом</label><input type="text" id="house" required></div>
+                    <div class="form-group"><label>Квартира / офис</label><input type="text" id="apartment"></div>
+                    <div class="form-group"><label>Комментарий курьеру</label><textarea rows="2" placeholder="домофон, этаж"></textarea></div>
+                    <button type="submit" class="btn-gold" id="payNowBtn">💳 Оплатить заказ (симуляция)</button>
+                    <p style="font-size:0.7rem; margin-top:1rem;">*Оплата онлайн демо-режим. При нажатии заказ считается оформленным.</p>
                 </form>
             </div>
         </div>
     </div>
 </main>
-
 <footer>
     <div class="container">
-        <p>⟡ NOIR GOURMET | Тёмная сторона вкуса ⟡</p>
-        <p style="margin-top: 8px;">Санкт-Петербург, Невский пр. | Ежедневно 12:00 – 00:00</p>
+        <p>⟡ NOIR GOURMET | Доставка 40–60 мин | Тёмная сторона вкуса ⟡</p>
+        <p style="margin-top: 8px;">СПБ, бесплатная доставка от 2000₽</p>
     </div>
 </footer>
 
 <script>
-    // ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ / ВКЛАДОК
+    // ======================= БАЗА ДАННЫХ БЛЮД =======================
+    const products = {
+        menu: [
+            { id: 1, name: "Тартар из говядины", price: 1350, desc: "Мраморная говядина, каперсы.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Tartar", cat: "menu", aspect: "landscape" },
+            { id: 2, name: "Утиная грудка", price: 1890, desc: "Соус вишня, картофельный гратен.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Duck", cat: "menu", aspect: "landscape" },
+            { id: 3, name: "Ризотто с трюфелем", price: 1550, desc: "Арборио, пармезан, трюфель.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Risotto", cat: "menu", aspect: "landscape" },
+            { id: 4, name: "Шоколадный фондан", price: 650, desc: "С мороженым соленая карамель.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Fondant", cat: "menu", aspect: "landscape" },
+            { id: 5, name: "Гребешки на гриле", price: 2100, desc: "Соус манго, икра лимона.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Scallops", cat: "menu", aspect: "landscape" },
+            { id: 6, name: "Рибай 350г", price: 2850, desc: "Спаржа гриль, соус демиглас.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Ribeye", cat: "menu", aspect: "landscape" }
+        ],
+        seasonal: [
+            { id: 7, name: "Тыквенный крем-суп", price: 690, desc: "Семена тыквы, мускат.", img: "https://placehold.co/600x600/1f232c/c9a03d?text=Pumpkin", cat: "seasonal", aspect: "square" },
+            { id: 8, name: "Борщ с перепелкой", price: 890, desc: "Паштет, сметана, пончики.", img: "https://placehold.co/600x600/1f232c/c9a03d?text=Borscht", cat: "seasonal", aspect: "square" },
+            { id: 9, name: "Оленина с брусникой", price: 2450, desc: "Соус можжевельник.", img: "https://placehold.co/600x600/1f232c/c9a03d?text=Venison", cat: "seasonal", aspect: "square" },
+            { id: 10, name: "Штрудель из груши", price: 580, desc: "Ванильное мороженое.", img: "https://placehold.co/600x600/1f232c/c9a03d?text=Strudel", cat: "seasonal", aspect: "square" }
+        ],
+        bar: [
+            { id: 11, name: "Нуар Негрони", price: 750, desc: "Джин, кампари, вермут.", img: "https://placehold.co/600x800/1f232c/c9a03d?text=Negroni", cat: "bar", aspect: "portrait" },
+            { id: 12, name: "Лавандовый сауэр", price: 690, desc: "Бурбон, лаванда, лимон.", img: "https://placehold.co/600x800/1f232c/c9a03d?text=Lavender", cat: "bar", aspect: "portrait" },
+            { id: 13, name: "Матча эспрессо мартини", price: 820, desc: "Водка, кофе, матча.", img: "https://placehold.co/600x800/1f232c/c9a03d?text=Matcha", cat: "bar", aspect: "portrait" },
+            { id: 14, name: "Chablis AOC", price: 950, desc: "Белое сухое, Франция.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Chablis", cat: "bar", aspect: "landscape" },
+            { id: 15, name: "Chianti Classico", price: 1100, desc: "Красное, Тоскана.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Chianti", cat: "bar", aspect: "landscape" },
+            { id: 16, name: "IPA Hop Noir", price: 490, desc: "Хмельной эль.", img: "https://placehold.co/600x600/1f232c/c9a03d?text=IPA", cat: "bar", aspect: "square" }
+        ]
+    };
+
+    // Корзина (храним в localStorage)
+    let cart = JSON.parse(localStorage.getItem('restaurant_cart')) || [];
+
+    function saveCart() {
+        localStorage.setItem('restaurant_cart', JSON.stringify(cart));
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        const countEl = document.getElementById('cartCount');
+        if(countEl) countEl.innerText = cart.reduce((sum, i) => sum + i.quantity, 0);
+        renderCartPage();
+    }
+
+    function addToCart(product) {
+        const existing = cart.find(i => i.id === product.id);
+        if(existing) existing.quantity += 1;
+        else cart.push({ ...product, quantity: 1 });
+        saveCart();
+        alert(`✅ ${product.name} добавлено в корзину!`);
+    }
+
+    function renderCartPage() {
+        const container = document.getElementById('cartItemsList');
+        const totalSpan = document.getElementById('totalPrice');
+        if(!container) return;
+        if(cart.length === 0) {
+            container.innerHTML = '<p style="padding:1rem;">Корзина пуста. Добавьте блюда из меню.</p>';
+            if(totalSpan) totalSpan.innerText = 'Итого: 0 ₽';
+            return;
+        }
+        let html = '';
+        let total = 0;
+        cart.forEach((item, idx) => {
+            const sum = item.price * item.quantity;
+            total += sum;
+            html += `
+                <div class="cart-item">
+                    <div><strong>${item.name}</strong><br>${item.price}₽ x ${item.quantity}</div>
+                    <div>${sum}₽ <button class="btn-order" style="width:auto; margin-left:12px; padding:4px 12px;" data-remove-idx="${idx}">❌</button></div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        if(totalSpan) totalSpan.innerText = `Итого: ${total} ₽`;
+        // удаление по кнопке
+        document.querySelectorAll('[data-remove-idx]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(btn.getAttribute('data-remove-idx'));
+                if(!isNaN(idx)) {
+                    cart.splice(idx, 1);
+                    saveCart();
+                    renderCartPage();
+                }
+            });
+        });
+    }
+
+    // Очистка корзины
+    function clearCart() {
+        cart = [];
+        saveCart();
+    }
+
+    // Оформление заказа (оплата симуляция)
+    function processPayment(addressData) {
+        if(cart.length === 0) {
+            alert("Корзина пуста! Добавьте блюда.");
+            return false;
+        }
+        const total = cart.reduce((s,i)=> s + i.price * i.quantity,0);
+        alert(`✨ Заказ оформлен! ✨\nСумма: ${total}₽\nАдрес: ${addressData.city}, ${addressData.street} ${addressData.house}, кв.${addressData.apartment || '—'}\nСпасибо! Ожидайте курьера. (Демо-оплата прошла успешно)`);
+        cart = [];
+        saveCart();
+        // переключаемся на меню
+        activatePage('menu');
+        return true;
+    }
+    function renderProductGrid(containerId, productList) {
+        const container = document.getElementById(containerId);
+        if(!container) return;
+        container.innerHTML = '';
+        productList.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'menu-card';
+            const imgClass = p.aspect === 'landscape' ? 'landscape' : (p.aspect === 'square' ? 'square' : 'portrait');
+            card.innerHTML = `
+                <div class="img-placeholder ${imgClass}">
+                    <img src="${p.img}" alt="${p.name}" style="width:100%; height:100%; object-fit:cover">
+                </div>
+                <div class="card-content">
+                    <div class="dish-title">${p.name} <span class="price">${p.price} ₽</span></div>
+                    <div class="desc">${p.desc}</div>
+                    <button class="btn-order" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-img="${p.img}" data-cat="${p.cat}">➕ В корзину</button>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+        // вешаем события на кнопки "В корзину"
+        document.querySelectorAll('.btn-order[data-id]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.dataset.id);
+                let found = null;
+                for(let cat of ['menu','seasonal','bar']) {
+                    found = products[cat].find(p => p.id === id);
+                    if(found) break;
+                }
+                if(found) addToCart(found);
+            });
+        });
+    }
+
+    // ========= НАВИГАЦИЯ =========
     const pages = {
         menu: document.getElementById('menu'),
         seasonal: document.getElementById('seasonal'),
         bar: document.getElementById('bar'),
-        booking: document.getElementById('booking')
+        booking: document.getElementById('booking'),
+        delivery: document.getElementById('delivery')
     };
-    
     const buttons = document.querySelectorAll('.nav-btn');
-    
     function activatePage(pageId) {
-        // скрыть все страницы
-        Object.values(pages).forEach(page => {
-            if(page) page.classList.remove('active-page');
-        });
-        // показать выбранную
+        Object.values(pages).forEach(p => { if(p) p.classList.remove('active-page'); });
         if(pages[pageId]) pages[pageId].classList.add('active-page');
-        
-        // обновить активную кнопку
         buttons.forEach(btn => {
-            const btnPage = btn.getAttribute('data-page');
-            if(btnPage === pageId) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+            const p = btn.getAttribute('data-page');
+            if(p === pageId) btn.classList.add('active');
+            else btn.classList.remove('active');
         });
+        if(pageId === 'delivery') {
+            renderCartPage();
+        }
     }
-    
     buttons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const pageId = btn.getAttribute('data-page');
-            if(pageId && pages[pageId]) {
-                activatePage(pageId);
-            }
+        btn.addEventListener('click', () => {
+            const page = btn.getAttribute('data-page');
+            if(page && pages[page]) activatePage(page);
         });
     });
-    
-    // легкая имитация отправки формы (просто оповещение)
-    const form = document.getElementById('reserveForm');
-    if(form) {
-        form.addEventListener('submit', (e) => {
+    // корзина по клику на иконку переключает на доставку
+    document.getElementById('cartIcon')?.addEventListener('click', () => {
+        activatePage('delivery');
+    });
+    // очистка корзины
+    document.getElementById('clearCartBtn')?.addEventListener('click', () => {
+        if(confirm('Очистить всю корзину?')) clearCart();
+    });
+    // форма доставки + оплата
+    const deliveryForm = document.getElementById('deliveryForm');
+    if(deliveryForm) {
+        deliveryForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('✨ Спасибо! Ваша заявка на бронирование принята. Скоро свяжемся для подтверждения времени.');
-            form.reset();
+            const city = document.getElementById('city')?.value.trim();
+            const street = document.getElementById('street')?.value.trim();
+            const house = document.getElementById('house')?.value.trim();
+            const apartment = document.getElementById('apartment')?.value.trim();
+            const district = document.getElementById('district')?.value.trim();
+            if(!city || !street || !house) {
+                alert('Пожалуйста, заполните город, улицу и дом.');
+                return;
+            }
+            processPayment({ city, district, street, house, apartment });
         });
     }
-
+    // форма бронирования
+    const reserveForm = document.getElementById('reserveForm');
+    if(reserveForm) {
+        reserveForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Бронирование отправлено! Мы свяжемся с вами для подтверждения.');
+            reserveForm.reset();
+        });
+    }
+    renderProductGrid('menuGrid', products.menu);
+    renderProductGrid('seasonalGrid', products.seasonal);
+    renderProductGrid('barGrid', products.bar);
+    updateCartUI();
 </script>
 </body>
 </html>
