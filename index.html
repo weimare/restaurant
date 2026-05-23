@@ -3,25 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NOIR GOURMET | Доставка и бронирование</title>
+    <title>NOIR GOURMET | Чувство вкуса</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
         }
-
-        body {
-            background-color: #0a0c10;
-            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Inter', sans-serif;
-            color: #ece8e1;
-            line-height: 1.5;
-            scroll-behavior: smooth;
-        }
-
-        /* Тёмная тема */
         :root {
-            --dark-bg: #0a0c10;
+            --bg-body: #0a0c10;
             --surface-dark: #111318;
             --card-bg: #181b22;
             --border-dim: #2a2e38;
@@ -29,6 +20,38 @@
             --accent-glow: rgba(201, 160, 61, 0.3);
             --text-light: #f2efe9;
             --text-muted: #aaaeb9;
+            --input-bg: #0f1117;
+            --header-bg: rgba(10, 12, 16, 0.95);
+            --cart-bg: #1f232c;
+            --hover-bg: rgba(201, 160, 61, 0.15);
+            --shadow-color: rgba(0,0,0,0.6);
+            --placeholder-bg: #1f232c;
+            --footer-bg: #0d0f13;
+        }
+        body.light-theme {
+            --bg-body: #f5f3f0;
+            --surface-dark: #ffffff;
+            --card-bg: #ffffff;
+            --border-dim: #e0dcd5;
+            --accent-gold: #b8860b;
+            --accent-glow: rgba(184, 134, 11, 0.2);
+            --text-light: #1e1e1e;
+            --text-muted: #5a5a5a;
+            --input-bg: #f9f9f9;
+            --header-bg: rgba(255, 255, 255, 0.96);
+            --cart-bg: #f0ede8;
+            --hover-bg: rgba(184, 134, 11, 0.1);
+            --shadow-color: rgba(0,0,0,0.15);
+            --placeholder-bg: #e9e6e0;
+            --footer-bg: #e8e4dd;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Inter', sans-serif;
+            color: var(--text-light);
+            line-height: 1.5;
+            scroll-behavior: smooth;
         }
 
         .container {
@@ -37,9 +60,8 @@
             padding: 0 24px;
         }
 
-        /* Шапка */
         header {
-            background: rgba(10, 12, 16, 0.95);
+            background: var(--header-bg);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-dim);
             position: sticky;
@@ -59,36 +81,43 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 600;
-            background: linear-gradient(135deg, #fff 30%, var(--accent-gold) 80%);
+            background: linear-gradient(135deg, var(--text-light) 30%, var(--accent-gold) 80%);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
         }
 
+        .nav-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: thin;
+            flex: 1;
+        }
         .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            display: inline-flex;
+            flex-wrap: nowrap;
+            gap: 0.4rem;
             list-style: none;
-            align-items: center;
+            padding: 4px 0;
         }
 
         .nav-btn {
             background: transparent;
             border: none;
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
-            padding: 0.6rem 1.2rem;
+            padding: 0.5rem 1rem;
             cursor: pointer;
             border-radius: 40px;
             transition: all 0.2s ease;
             font-family: inherit;
+            white-space: nowrap;
         }
 
         .nav-btn:hover {
             color: var(--text-light);
-            background: rgba(201, 160, 61, 0.15);
+            background: var(--hover-bg);
         }
 
         .nav-btn.active {
@@ -96,11 +125,25 @@
             color: #0a0c10;
             box-shadow: 0 0 8px var(--accent-glow);
         }
+        .theme-toggle {
+            background: var(--cart-bg);
+            border: 1px solid var(--border-dim);
+            border-radius: 40px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .theme-toggle:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
 
-        /* Корзина */
         .cart-icon {
-            position: relative;
-            background: #1f232c;
+            background: var(--cart-bg);
             border-radius: 40px;
             padding: 0.5rem 1rem;
             display: flex;
@@ -109,6 +152,7 @@
             cursor: pointer;
             transition: 0.2s;
             border: 1px solid var(--border-dim);
+            white-space: nowrap;
         }
         .cart-icon:hover {
             border-color: var(--accent-gold);
@@ -117,16 +161,15 @@
             background: var(--accent-gold);
             color: #0a0c10;
             border-radius: 30px;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
 
-        /* Страницы */
         .page {
             display: none;
             animation: fadeIn 0.3s ease-out;
@@ -141,26 +184,25 @@
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 500;
             margin-bottom: 1rem;
             border-left: 4px solid var(--accent-gold);
             padding-left: 1.2rem;
+            color: var(--text-light);
         }
         .section-sub {
             color: var(--text-muted);
             margin-bottom: 2rem;
         }
 
-        /* Сетка меню */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
             gap: 2rem;
             margin-top: 1.5rem;
         }
 
-        /* Карточка + анимации (увеличение, тень) */
         .menu-card {
             background: var(--card-bg);
             border-radius: 24px;
@@ -170,15 +212,14 @@
         }
         .menu-card:hover {
             transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.6);
+            box-shadow: 0 25px 35px -12px var(--shadow-color);
             border-color: var(--accent-gold);
         }
 
-        /* Фото с эффектами увеличения внутри */
         .img-placeholder {
             position: relative;
             overflow: hidden;
-            background: #1f232c;
+            background: var(--placeholder-bg);
         }
         .img-placeholder img {
             width: 100%;
@@ -190,7 +231,6 @@
         .menu-card:hover .img-placeholder img {
             transform: scale(1.08);
         }
-        /* затемнение и текст по желанию */
         .img-placeholder::after {
             content: '';
             position: absolute;
@@ -220,6 +260,7 @@
             justify-content: space-between;
             flex-wrap: wrap;
             margin-bottom: 0.5rem;
+            color: var(--text-light);
         }
         .price {
             color: var(--accent-gold);
@@ -229,30 +270,75 @@
             font-size: 0.9rem;
             margin: 0.5rem 0 1rem;
         }
-        .btn-order {
-            background: transparent;
-            border: 1px solid var(--accent-gold);
-            color: var(--accent-gold);
-            padding: 0.5rem 1rem;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.2s;
-            width: 100%;
+
+        .cart-action-container {
+            margin-top: 8px;
         }
-        .btn-order:hover {
+        .cart-controls {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--cart-bg);
+            padding: 4px 8px;
+            border-radius: 60px;
+            border: 1px solid var(--border-dim);
+            width: 100%;
+            justify-content: space-between;
+        }
+        .cart-controls button {
+            background: transparent;
+            border: none;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--accent-gold);
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 40px;
+            transition: 0.2s;
+        }
+        .cart-controls button:hover {
             background: var(--accent-gold);
             color: #0a0c10;
         }
-
-        /* Бронирование */
-        .booking-card {
+        .cart-controls .qty-value {
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 32px;
+            text-align: center;
+            color: var(--text-light);
+        }
+        .btn-add-full {
+            background: var(--cart-bg);
+            border: 1px solid var(--border-dim);
+            border-radius: 60px;
+            padding: 8px 12px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--accent-gold);
+            width: 100%;
+            font-family: inherit;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-add-full:hover {
+            background: var(--accent-gold);
+            color: #0a0c10;
+            border-color: var(--accent-gold);
+        }
+        
+        .booking-card, .cart-summary, .delivery-form {
             background: var(--surface-dark);
             border-radius: 28px;
-            padding: 2rem;
+            padding: 1.8rem;
             border: 1px solid var(--border-dim);
-            max-width: 700px;
-            margin: 2rem auto;
+            margin-bottom: 2rem;
         }
         .form-group {
             margin-bottom: 1.5rem;
@@ -261,14 +347,15 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
+            color: var(--text-light);
         }
         input, select, textarea {
             width: 100%;
             padding: 0.9rem 1rem;
-            background: #0f1117;
+            background: var(--input-bg);
             border: 1px solid var(--border-dim);
             border-radius: 16px;
-            color: white;
+            color: var(--text-light);
             font-family: inherit;
         }
         input:focus, select:focus {
@@ -278,33 +365,66 @@
         .btn-gold {
             background: var(--accent-gold);
             border: none;
-            padding: 0.9rem 1.8rem;
+            padding: 0.9rem;
             font-weight: bold;
             border-radius: 40px;
             cursor: pointer;
             width: 100%;
             color: #0a0c10;
         }
-
-        /* Страница доставки + корзина */
-        .cart-summary {
-            background: var(--surface-dark);
-            border-radius: 28px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid var(--border-dim);
-        }
+   
         .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0.8rem 0;
             border-bottom: 1px solid var(--border-dim);
+            color: var(--text-light);
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .delivery-form {
-            background: var(--surface-dark);
-            border-radius: 28px;
-            padding: 1.8rem;
+        .cart-item-info {
+            flex: 2;
+            min-width: 150px;
+        }
+        .cart-item-controls {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--cart-bg);
+            padding: 5px 12px;
+            border-radius: 60px;
+            border: 1px solid var(--border-dim);
+        }
+        .cart-item-controls button {
+            background: transparent;
+            border: none;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--accent-gold);
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            transition: 0.2s;
+        }
+        .cart-item-controls button:hover {
+            background: var(--accent-gold);
+            color: #0a0c10;
+        }
+        .cart-item-qty {
+            font-weight: 600;
+            min-width: 28px;
+            text-align: center;
+        }
+        .cart-item-price {
+            font-weight: 600;
+            color: var(--accent-gold);
+            min-width: 80px;
+            text-align: right;
         }
         .total-price {
             font-size: 1.5rem;
@@ -313,65 +433,96 @@
             color: var(--accent-gold);
         }
         footer {
+            background: var(--footer-bg);
             border-top: 1px solid var(--border-dim);
             margin-top: 3rem;
             padding: 2rem 0;
             text-align: center;
-            color: #5b5f6b;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .social-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .social-link:hover {
+            color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+        .copyright {
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
         @media (max-width: 680px) {
-            .navbar { flex-direction: column; align-items: stretch; }
-            .nav-links { justify-content: center; }
-            .section-title { font-size: 1.9rem; }
+            .navbar { flex-direction: column; }
+            .section-title { font-size: 1.8rem; }
+            .cart-item { flex-direction: column; align-items: flex-start; }
+            .cart-item-price { text-align: left; }
+        }
+        .right-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
     </style>
 </head>
 <body>
-
 <header>
     <div class="container">
         <div class="navbar">
             <div class="logo">⟡ NOIR GOURMET ⟡</div>
-            <ul class="nav-links">
-                <li><button class="nav-btn" data-page="menu">🍽️ Меню</button></li>
-                <li><button class="nav-btn" data-page="seasonal">🌿 Сезонное</button></li>
-                <li><button class="nav-btn" data-page="bar">🥂 Барная карта</button></li>
-                <li><button class="nav-btn" data-page="booking">📅 Бронировать</button></li>
-                <li><button class="nav-btn" data-page="delivery">🚚 Доставка</button></li>
-                <li><div class="cart-icon" id="cartIcon">
+            <div class="nav-wrapper">
+                <ul class="nav-links">
+                    <li><button class="nav-btn active" data-page="cold">❄️ Холодные</button></li>
+                    <li><button class="nav-btn" data-page="hot">🔥 Горячие</button></li>
+                    <li><button class="nav-btn" data-page="appetizers">🍢 Закуски</button></li>
+                    <li><button class="nav-btn" data-page="desserts">🍰 Десерты</button></li>
+                    <li><button class="nav-btn" data-page="soft">🧃 Безалкогольные</button></li>
+                    <li><button class="nav-btn" data-page="seasonal">🌿 Сезонное</button></li>
+                    <li><button class="nav-btn" data-page="bar">🥂 Барная карта</button></li>
+                    <li><button class="nav-btn" data-page="booking">📅 Бронь</button></li>
+                    <li><button class="nav-btn" data-page="delivery">🚚 Доставка</button></li>
+                </ul>
+            </div>
+            <div class="right-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Сменить тему">🌙</button>
+                <div class="cart-icon" id="cartIcon">
                     🛒 <span id="cartCount" class="cart-count">0</span>
-                </div></li>
-            </ul>
+                </div>
+            </div>
         </div>
     </div>
 </header>
 
 <main>
     <div class="container">
-        <!-- ================= СТРАНИЦА МЕНЮ ================= -->
-        <div id="menu" class="page active-page">
-            <h2 class="section-title">Основное меню</h2>
-            <p class="section-sub">Добавляйте блюда в корзину — оформите доставку на странице «Доставка».</p>
-            <div class="menu-grid" id="menuGrid"></div>
-        </div>
+        <div id="cold" class="page active-page"><div class="section-title">❄️ Холодные блюда</div><div id="coldGrid" class="menu-grid"></div></div>
+        <div id="hot" class="page"><div class="section-title">🔥 Горячие блюда</div><div id="hotGrid" class="menu-grid"></div></div>
+        <div id="appetizers" class="page"><div class="section-title">🍢 Закуски</div><div id="appetizersGrid" class="menu-grid"></div></div>
+        <div id="desserts" class="page"><div class="section-title">🍰 Десерты</div><div id="dessertsGrid" class="menu-grid"></div></div>
+        <div id="soft" class="page"><div class="section-title">🧃 Безалкогольные напитки</div><div id="softGrid" class="menu-grid"></div></div>
+        <div id="seasonal" class="page"><div class="section-title">🌿 Сезонное меню</div><div id="seasonalGrid" class="menu-grid"></div></div>
+        <div id="bar" class="page"><div class="section-title">🥂 Барная карта</div><div id="barGrid" class="menu-grid"></div></div>
 
-        <!-- СЕЗОННОЕ МЕНЮ -->
-        <div id="seasonal" class="page">
-            <h2 class="section-title">🌱 Сезонное меню</h2>
-            <div class="menu-grid" id="seasonalGrid"></div>
-        </div>
-
-        <!-- БАРНАЯ КАРТА -->
-        <div id="bar" class="page">
-            <h2 class="section-title">🍸 Барная карта</h2>
-            <div class="menu-grid" id="barGrid"></div>
-        </div>
-
-        <!-- БРОНИРОВАНИЕ -->
         <div id="booking" class="page">
             <h2 class="section-title">Забронировать столик</h2>
             <div class="img-placeholder landscape" style="border-radius: 28px; margin-bottom: 1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-                <img src="https://placehold.co/1200x675/1f232c/c9a03d?text=Restaurant+Interior+Photo" alt="интерьер" style="width:100%; height:100%; object-fit:cover">
+                <img src="https://i.pinimg.com/736x/9c/75/09/9c7509bb7bb1cbe675ee2e79407af3d2.jpg" alt="интерьер" style="width:100%; height:100%; object-fit:cover">
             </div>
             <div class="booking-card">
                 <form id="reserveForm">
@@ -385,72 +536,93 @@
             </div>
         </div>
 
-        <!-- ================= СТРАНИЦА ДОСТАВКА + КОРЗИНА ================= -->
         <div id="delivery" class="page">
             <h2 class="section-title">🚚 Доставка еды</h2>
-            <p class="section-sub">Ваши выбранные блюда — оплата при получении или картой онлайн (симуляция).</p>
             <div class="cart-summary" id="cartSummary">
                 <h3>🛒 Ваш заказ</h3>
                 <div id="cartItemsList"></div>
                 <div class="total-price" id="totalPrice">Итого: 0 ₽</div>
-                <button id="clearCartBtn" class="btn-order" style="border-color:#a55; color:#a55;">Очистить корзину</button>
+                <button id="clearCartBtn" class="btn-order" style="border-color:#a55; color:#a55; background:transparent; border:1px solid; border-radius:40px; padding:8px 16px; margin-top:12px;">Очистить корзину</button>
             </div>
             <div class="delivery-form">
                 <h3>Адрес доставки</h3>
                 <form id="deliveryForm">
                     <div class="form-group"><label>Город</label><input type="text" id="city" placeholder="Санкт-Петербург" required></div>
                     <div class="form-group"><label>Район</label><input type="text" id="district" placeholder="Центральный"></div>
-                    <div class="form-group"><label>Улица</label><input type="text" id="street" placeholder="Невский пр." required></div>
+                    <div class="form-group"><label>Улица</label><input type="text" id="street" required></div>
                     <div class="form-group"><label>Дом</label><input type="text" id="house" required></div>
-                    <div class="form-group"><label>Квартира / офис</label><input type="text" id="apartment"></div>
-                    <div class="form-group"><label>Комментарий курьеру</label><textarea rows="2" placeholder="домофон, этаж"></textarea></div>
-                    <button type="submit" class="btn-gold" id="payNowBtn">💳 Оплатить заказ (симуляция)</button>
-                    <p style="font-size:0.7rem; margin-top:1rem;">*Оплата онлайн демо-режим. При нажатии заказ считается оформленным.</p>
+                    <div class="form-group"><label>Квартира</label><input type="text" id="apartment"></div>
+                    <button type="submit" class="btn-gold">💳 Оплатить заказ (демо)</button>
                 </form>
             </div>
         </div>
     </div>
 </main>
+
 <footer>
     <div class="container">
-        <p>⟡ NOIR GOURMET | Доставка 40–60 мин | Тёмная сторона вкуса ⟡</p>
-        <p style="margin-top: 8px;">СПБ, бесплатная доставка от 2000₽</p>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" class="social-link" target="_blank">📘 Instagram</a>
+                <a href="#" class="social-link" target="_blank">📱 Telegram</a>
+                <a href="#" class="social-link" target="_blank">🐦 Twitter</a>
+                <a href="#" class="social-link" target="_blank">▶️ YouTube</a>
+            </div>
+            <div class="copyright">
+                <p>⟡ NOIR GOURMET | Доставка 40–60 мин | Светлая/Тёмная тема ⟡</p>
+                <p style="margin-top: 8px;">СПБ, бесплатная доставка от 2000₽ | Все права защищены (демо-проект)</p>
+            </div>
+        </div>
     </div>
 </footer>
 
 <script>
-    // ======================= БАЗА ДАННЫХ БЛЮД =======================
+
     const products = {
-        menu: [
-            { id: 1, name: "Тартар из говядины", price: 1350, desc: "Мраморная говядина, каперсы.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Tartar", cat: "menu", aspect: "landscape" },
-            { id: 2, name: "Утиная грудка", price: 1890, desc: "Соус вишня, картофельный гратен.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Duck", cat: "menu", aspect: "landscape" },
-            { id: 3, name: "Ризотто с трюфелем", price: 1550, desc: "Арборио, пармезан, трюфель.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Risotto", cat: "menu", aspect: "landscape" },
-            { id: 4, name: "Шоколадный фондан", price: 650, desc: "С мороженым соленая карамель.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Fondant", cat: "menu", aspect: "landscape" },
-            { id: 5, name: "Гребешки на гриле", price: 2100, desc: "Соус манго, икра лимона.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Scallops", cat: "menu", aspect: "landscape" },
-            { id: 6, name: "Рибай 350г", price: 2850, desc: "Спаржа гриль, соус демиглас.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Ribeye", cat: "menu", aspect: "landscape" }
+        cold: [   
+            { id: 1, name: "Тартар из говядины", price: 1350, desc: "Мраморная говядина, каперсы, перечный соус.", img: "https://24smi.org/public/media/news/2025/05/26/zqr4pep5pt9g-prigotovila-odnazhdy-teper-druzia-trebuiut-retsept.jpg", aspect: "landscape" },
+            { id: 2, name: "Карпаччо из лосося", price: 1250, desc: "Слабосоленый лосось, цитрусовая заправка.", img: "https://images.gastronom.ru/9oLVSSf9JSKfWxO7v1g2a7du6J924gVOOCCeubSW1AE/pr:recipe-step-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzLzhhM2MzOTZlLWU5NzgtNGVkMi1iZGVmLWEwMDM0N2M5NWYxZC5qcGc.webp", aspect: "landscape" },
+            { id: 3, name: "Вителло тоннато", price: 1450, desc: "Телятина, соус из тунца, каперсы.", img: "https://cdn.food.ru/unsigned/fit/640/480/ce/0/czM6Ly9tZWRpYS9waWN0dXJlcy8yMDI1MDQyNS8zNkUzSm4uanBlZw.jpg", aspect: "landscape" },
         ],
-        seasonal: [
-            { id: 7, name: "Тыквенный крем-суп", price: 690, desc: "Семена тыквы, мускат.", img: "https://placehold.co/600x600/1f232c/c9a03d?text=Pumpkin", cat: "seasonal", aspect: "square" },
-            { id: 8, name: "Борщ с перепелкой", price: 890, desc: "Паштет, сметана, пончики.", img: "https://placehold.co/600x600/1f232c/c9a03d?text=Borscht", cat: "seasonal", aspect: "square" },
-            { id: 9, name: "Оленина с брусникой", price: 2450, desc: "Соус можжевельник.", img: "https://placehold.co/600x600/1f232c/c9a03d?text=Venison", cat: "seasonal", aspect: "square" },
-            { id: 10, name: "Штрудель из груши", price: 580, desc: "Ванильное мороженое.", img: "https://placehold.co/600x600/1f232c/c9a03d?text=Strudel", cat: "seasonal", aspect: "square" }
+        hot: [    
+            { id: 4, name: "Утиная грудка", price: 1890, desc: "Соус из вишни, картофельный гратен.", img: "https://stolica58.ru/uploads/2025/4/23/3/d99b1caa205611f080ff16609d737eaa1.jpeg", aspect: "landscape" },
+            { id: 5, name: "Рибай 350г", price: 2850, desc: "Мраморная говядина, спаржа гриль.", img: "https://resizer.mail.ru/p/e6cfe636-8bf1-58df-bda7-5604f5fd0d48/AQAFZQ-k_O1azrWT0Epflsz2nQ7DNTy5O2MV5rTdQQ9KjS4POWCN2KpZw6fvDr9RIpo2X2KC2b-iETDAQM2nsHIFYgE.jpg", aspect: "landscape" },
+            { id: 6, name: "Ризотто с трюфелем", price: 1550, desc: "Арборио, пармезан, чёрный трюфель.", img: "https://caviarhub.ca/cdn/shop/files/risotto-1.webp?v=1725335828&width=1920", aspect: "landscape" },
+            { id: 7, name: "Гребешки на гриле", price: 2100, desc: "Соус манго и лайма.", img: "https://chef.ru/wp-content/uploads/2023/06/grebeshok-768x512.jpg", aspect: "landscape" },
         ],
-        bar: [
-            { id: 11, name: "Нуар Негрони", price: 750, desc: "Джин, кампари, вермут.", img: "https://placehold.co/600x800/1f232c/c9a03d?text=Negroni", cat: "bar", aspect: "portrait" },
-            { id: 12, name: "Лавандовый сауэр", price: 690, desc: "Бурбон, лаванда, лимон.", img: "https://placehold.co/600x800/1f232c/c9a03d?text=Lavender", cat: "bar", aspect: "portrait" },
-            { id: 13, name: "Матча эспрессо мартини", price: 820, desc: "Водка, кофе, матча.", img: "https://placehold.co/600x800/1f232c/c9a03d?text=Matcha", cat: "bar", aspect: "portrait" },
-            { id: 14, name: "Chablis AOC", price: 950, desc: "Белое сухое, Франция.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Chablis", cat: "bar", aspect: "landscape" },
-            { id: 15, name: "Chianti Classico", price: 1100, desc: "Красное, Тоскана.", img: "https://placehold.co/600x400/1f232c/c9a03d?text=Chianti", cat: "bar", aspect: "landscape" },
-            { id: 16, name: "IPA Hop Noir", price: 490, desc: "Хмельной эль.", img: "https://placehold.co/600x600/1f232c/c9a03d?text=IPA", cat: "bar", aspect: "square" }
+        appetizers: [ 
+            { id: 8, name: "Брускетта с томатами", price: 490, desc: "Чеснок, базилик, оливковое масло.", img: "https://cdnn21.img.ria.ru/images/07e9/02/0d/1999052093_0:53:1001:616_1920x0_80_0_0_ce5cd4427e1845665869c28714175d34.jpg", aspect: "square" },
+            { id: 9, name: "Сырная тарелка", price: 980, desc: "Пармезан, горгонзола, камамбер, мед.", img: "https://image.globus.ru/web/68/22/456822.jpg", aspect: "square" },
+            { id: 10, name: "Тако с креветкой", price: 720, desc: "Сальса, авокадо, лайм.", img: "https://img.inmyroom.ru/inmyroom/thumb/1240x796/jpg:60/uploads/food_recipe/teaser/bd/bdc8/jpg_2000_bdc8d03e-70f5-405b-833a-0cd5d39789bb.jpg?sign=84046c06f25170fc7ba51ed8e8ac1e8747ff80b09dcf4697d32d9651b2863ffa", aspect: "square" },
+        ],
+        desserts: [  
+            { id: 11, name: "Шоколадный фондан", price: 650, desc: "Жидкая сердцевина, мороженое карамель.", img: "https://img.povar.ru/uploads/5e/0e/f8/09/shokoladnii_fondan_v_mikrovolnovke-828480.jpg", aspect: "square" },
+            { id: 12, name: "Тирамису", price: 590, desc: "Маскарпоне, кофе, какао.", img: "https://s0.rbk.ru/v6_top_pics/media/img/0/64/347393955965640.webp", aspect: "square" },
+            { id: 13, name: "Чизкейк маракуйя", price: 620, desc: "Песочная основа, кисло-сладкий топпинг.", img: "https://i.pinimg.com/736x/bc/75/18/bc75180cd6927116b26c05d0dfadeb38.jpg", aspect: "square" },
+        ],
+        soft: [    
+            { id: 14, name: "Лимонад с базиликом", price: 380, desc: "Свежая мята, лайм, домашний сироп.", img: "https://sun1-85.userapi.com/impg/bNzkDjI80qPJO54w7bbm8vp7TVPyf4-EA-hKuw/EORYGGf3Waw.jpg?size=1280x871&quality=96&sign=69c05bdab10d1dce4c9778e550f1c210&type=album", aspect: "square" },
+            { id: 15, name: "Матча латте", price: 420, desc: "Японский чай, вспененное молоко.", img: "https://main-cdn.sbermegamarket.ru/big2/hlr-system/-88/693/098/471/918/36/600004021733b4.jpeg", aspect: "square" },
+            { id: 16, name: "Домашний морс", price: 350, desc: "Клюква, имбирь, мёд.", img: "https://img.povar.ru/main-micro/b4/55/31/18/kliukvennii_mors_bez_varki-767404.JPG", aspect: "square" },
+        ],
+        seasonal: [ 
+            { id: 17, name: "Тыквенный крем-суп", price: 690, desc: "Семена тыквы, мускатный орех.", img: "https://www.koolinar.ru/all_image/article/4/4707/article-4dca8df0-f9de-44fa-b3e9-4eb4a32eba5a_large.jpg", aspect: "square" },
+            { id: 18, name: "Борщ с перепелкой", price: 890, desc: "Паштет, мини-пончики.", img: "https://img.vkusvill.ru/pim/images/site_LargeWebP/706200e3-1578-4baf-9020-0f0fd81f5f25.webp?1727175625.0087", aspect: "square" },
+            { id: 19, name: "Оленина с брусникой", price: 2450, desc: "Можжевельник, пюре сельдерея.", img: "https://avatars.mds.yandex.net/i?id=01b645d50d0fecdc07103b45ebd520f35f1946ab-12803022-images-thumbs&n=13", aspect: "square" },
+        ],
+        bar: [      
+            { id: 20, name: "Нуар Негрони", price: 750, desc: "Джин, кампари, вермут.", img: "https://i.pinimg.com/originals/6b/f4/af/6bf4af1c8b745e48c2bf656e6590daba.jpg", aspect: "portrait" },
+            { id: 21, name: "Лавандовый сауэр", price: 690, desc: "Бурбон, лаванда, лимон.", img: "https://i.pinimg.com/736x/6c/a9/df/6ca9df3804f9a84ff5bea90795612e2a.jpg", aspect: "portrait" },
+            { id: 22, name: "Chianti Classico", price: 1100, desc: "Красное, Тоскана.", img: "https://safrescobaldistatic.blob.core.windows.net/media/2022/11/BORDIJ-1-1024x683.jpg", aspect: "landscape" },
         ]
     };
 
-    // Корзина (храним в localStorage)
     let cart = JSON.parse(localStorage.getItem('restaurant_cart')) || [];
 
     function saveCart() {
         localStorage.setItem('restaurant_cart', JSON.stringify(cart));
         updateCartUI();
+        renderAllCartButtons();
     }
 
     function updateCartUI() {
@@ -458,13 +630,67 @@
         if(countEl) countEl.innerText = cart.reduce((sum, i) => sum + i.quantity, 0);
         renderCartPage();
     }
+    
+    function getQty(productId) {
+        const item = cart.find(i => i.id === productId);
+        return item ? item.quantity : 0;
+    }
 
     function addToCart(product) {
         const existing = cart.find(i => i.id === product.id);
         if(existing) existing.quantity += 1;
         else cart.push({ ...product, quantity: 1 });
         saveCart();
-        alert(`✅ ${product.name} добавлено в корзину!`);
+    }
+    
+    function removeOneFromCart(productId) {
+        const item = cart.find(i => i.id === productId);
+        if(item) {
+            if(item.quantity > 1) item.quantity -= 1;
+            else cart = cart.filter(i => i.id !== productId);
+            saveCart();
+        }
+    }
+    
+    function renderAllCartButtons() {
+        document.querySelectorAll('.cart-action-container').forEach(container => {
+            const productId = parseInt(container.dataset.id);
+            const product = findProductById(productId);
+            if(!product) return;
+            const qty = getQty(productId);
+            if(qty === 0) {
+                container.innerHTML = `<button class="btn-add-full">➕ В корзину</button>`;
+                const btn = container.querySelector('.btn-add-full');
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    addToCart(product);
+                });
+            } else {
+                container.innerHTML = `
+                    <div class="cart-controls">
+                        <button class="qty-decr">−</button>
+                        <span class="qty-value">${qty}</span>
+                        <button class="qty-incr">+</button>
+                    </div>
+                `;
+                container.querySelector('.qty-decr').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeOneFromCart(productId);
+                });
+                container.querySelector('.qty-incr').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    addToCart(product);
+                });
+            }
+        });
+    }
+    
+    function findProductById(id) {
+        for(let cat of ['cold','hot','appetizers','desserts','soft','seasonal','bar']) {
+            const found = products[cat]?.find(p => p.id === id);
+            if(found) return found;
+        }
+        return null;
     }
 
     function renderCartPage() {
@@ -472,156 +698,152 @@
         const totalSpan = document.getElementById('totalPrice');
         if(!container) return;
         if(cart.length === 0) {
-            container.innerHTML = '<p style="padding:1rem;">Корзина пуста. Добавьте блюда из меню.</p>';
+            container.innerHTML = '<p style="padding:1rem; color: var(--text-muted);">Корзина пуста. Добавьте блюда из любого раздела.</p>';
             if(totalSpan) totalSpan.innerText = 'Итого: 0 ₽';
             return;
         }
         let html = '';
         let total = 0;
-        cart.forEach((item, idx) => {
+        cart.forEach((item) => {
             const sum = item.price * item.quantity;
             total += sum;
             html += `
-                <div class="cart-item">
-                    <div><strong>${item.name}</strong><br>${item.price}₽ x ${item.quantity}</div>
-                    <div>${sum}₽ <button class="btn-order" style="width:auto; margin-left:12px; padding:4px 12px;" data-remove-idx="${idx}">❌</button></div>
+                <div class="cart-item" data-id="${item.id}">
+                    <div class="cart-item-info">
+                        <strong>${item.name}</strong><br>${item.price}₽ / шт
+                    </div>
+                    <div class="cart-item-controls">
+                        <button class="cart-decr" data-id="${item.id}">−</button>
+                        <span class="cart-item-qty">${item.quantity}</span>
+                        <button class="cart-incr" data-id="${item.id}">+</button>
+                    </div>
+                    <div class="cart-item-price">${sum} ₽</div>
                 </div>
             `;
         });
         container.innerHTML = html;
         if(totalSpan) totalSpan.innerText = `Итого: ${total} ₽`;
-        // удаление по кнопке
-        document.querySelectorAll('[data-remove-idx]').forEach(btn => {
+        
+        document.querySelectorAll('.cart-incr').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const idx = parseInt(btn.getAttribute('data-remove-idx'));
-                if(!isNaN(idx)) {
-                    cart.splice(idx, 1);
-                    saveCart();
-                    renderCartPage();
-                }
+                const id = parseInt(btn.dataset.id);
+                const prod = findProductById(id);
+                if(prod) addToCart(prod);
+            });
+        });
+        document.querySelectorAll('.cart-decr').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                removeOneFromCart(id);
             });
         });
     }
 
-    // Очистка корзины
-    function clearCart() {
-        cart = [];
-        saveCart();
-    }
+    function clearCart() { cart = []; saveCart(); }
 
-    // Оформление заказа (оплата симуляция)
     function processPayment(addressData) {
-        if(cart.length === 0) {
-            alert("Корзина пуста! Добавьте блюда.");
-            return false;
-        }
+        if(cart.length === 0) { alert("Корзина пуста!"); return false; }
         const total = cart.reduce((s,i)=> s + i.price * i.quantity,0);
-        alert(`✨ Заказ оформлен! ✨\nСумма: ${total}₽\nАдрес: ${addressData.city}, ${addressData.street} ${addressData.house}, кв.${addressData.apartment || '—'}\nСпасибо! Ожидайте курьера. (Демо-оплата прошла успешно)`);
+        alert(`✨ ЗАКАЗ ОФОРМЛЕН! ✨\nСумма: ${total}₽\nАдрес: ${addressData.city}, ${addressData.street} ${addressData.house}\nСпасибо! Курьер будет скоро. (Демо-оплата)`);
         cart = [];
         saveCart();
-        // переключаемся на меню
-        activatePage('menu');
+        activatePage('cold');
         return true;
     }
-    function renderProductGrid(containerId, productList) {
+
+    function renderGrid(containerId, items) {
         const container = document.getElementById(containerId);
         if(!container) return;
         container.innerHTML = '';
-        productList.forEach(p => {
+        items.forEach(p => {
             const card = document.createElement('div');
             card.className = 'menu-card';
             const imgClass = p.aspect === 'landscape' ? 'landscape' : (p.aspect === 'square' ? 'square' : 'portrait');
             card.innerHTML = `
                 <div class="img-placeholder ${imgClass}">
-                    <img src="${p.img}" alt="${p.name}" style="width:100%; height:100%; object-fit:cover">
+                    <img src="${p.img}" alt="${p.name}" loading="lazy" style="width:100%; height:100%; object-fit:cover">
                 </div>
                 <div class="card-content">
                     <div class="dish-title">${p.name} <span class="price">${p.price} ₽</span></div>
                     <div class="desc">${p.desc}</div>
-                    <button class="btn-order" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-img="${p.img}" data-cat="${p.cat}">➕ В корзину</button>
+                    <div class="cart-action-container" data-id="${p.id}"></div>
                 </div>
             `;
             container.appendChild(card);
         });
-        // вешаем события на кнопки "В корзину"
-        document.querySelectorAll('.btn-order[data-id]').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const id = parseInt(btn.dataset.id);
-                let found = null;
-                for(let cat of ['menu','seasonal','bar']) {
-                    found = products[cat].find(p => p.id === id);
-                    if(found) break;
-                }
-                if(found) addToCart(found);
-            });
-        });
+        renderAllCartButtons();
     }
 
-    // ========= НАВИГАЦИЯ =========
+    function initAllGrids() {
+        renderGrid('coldGrid', products.cold);
+        renderGrid('hotGrid', products.hot);
+        renderGrid('appetizersGrid', products.appetizers);
+        renderGrid('dessertsGrid', products.desserts);
+        renderGrid('softGrid', products.soft);
+        renderGrid('seasonalGrid', products.seasonal);
+        renderGrid('barGrid', products.bar);
+    }
+
     const pages = {
-        menu: document.getElementById('menu'),
-        seasonal: document.getElementById('seasonal'),
-        bar: document.getElementById('bar'),
-        booking: document.getElementById('booking'),
+        cold: document.getElementById('cold'), hot: document.getElementById('hot'),
+        appetizers: document.getElementById('appetizers'), desserts: document.getElementById('desserts'),
+        soft: document.getElementById('soft'), seasonal: document.getElementById('seasonal'),
+        bar: document.getElementById('bar'), booking: document.getElementById('booking'),
         delivery: document.getElementById('delivery')
     };
-    const buttons = document.querySelectorAll('.nav-btn');
+    const navBtns = document.querySelectorAll('.nav-btn');
     function activatePage(pageId) {
         Object.values(pages).forEach(p => { if(p) p.classList.remove('active-page'); });
         if(pages[pageId]) pages[pageId].classList.add('active-page');
-        buttons.forEach(btn => {
-            const p = btn.getAttribute('data-page');
-            if(p === pageId) btn.classList.add('active');
+        navBtns.forEach(btn => {
+            if(btn.getAttribute('data-page') === pageId) btn.classList.add('active');
             else btn.classList.remove('active');
         });
-        if(pageId === 'delivery') {
-            renderCartPage();
-        }
+        if(pageId === 'delivery') renderCartPage();
     }
-    buttons.forEach(btn => {
+    navBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const page = btn.getAttribute('data-page');
             if(page && pages[page]) activatePage(page);
         });
     });
-    // корзина по клику на иконку переключает на доставку
-    document.getElementById('cartIcon')?.addEventListener('click', () => {
-        activatePage('delivery');
+    document.getElementById('cartIcon')?.addEventListener('click', () => activatePage('delivery'));
+    document.getElementById('clearCartBtn')?.addEventListener('click', () => { if(confirm('Очистить корзину?')) clearCart(); });
+    document.getElementById('deliveryForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const city = document.getElementById('city')?.value.trim();
+        const street = document.getElementById('street')?.value.trim();
+        const house = document.getElementById('house')?.value.trim();
+        if(!city || !street || !house) { alert('Заполните город, улицу и дом'); return; }
+        processPayment({ city, street, house, apartment: document.getElementById('apartment')?.value });
     });
-    // очистка корзины
-    document.getElementById('clearCartBtn')?.addEventListener('click', () => {
-        if(confirm('Очистить всю корзину?')) clearCart();
+    document.getElementById('reserveForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Бронирование отправлено! Мы свяжемся.');
+        e.target.reset();
     });
-    // форма доставки + оплата
-    const deliveryForm = document.getElementById('deliveryForm');
-    if(deliveryForm) {
-        deliveryForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const city = document.getElementById('city')?.value.trim();
-            const street = document.getElementById('street')?.value.trim();
-            const house = document.getElementById('house')?.value.trim();
-            const apartment = document.getElementById('apartment')?.value.trim();
-            const district = document.getElementById('district')?.value.trim();
-            if(!city || !street || !house) {
-                alert('Пожалуйста, заполните город, улицу и дом.');
-                return;
-            }
-            processPayment({ city, district, street, house, apartment });
-        });
+    
+    const themeToggle = document.getElementById('themeToggle');
+    function setTheme(theme) {
+        if (theme === 'light') {
+            document.body.classList.add('light-theme');
+            localStorage.setItem('restaurant_theme', 'light');
+            if (themeToggle) themeToggle.innerHTML = '☀️';
+        } else {
+            document.body.classList.remove('light-theme');
+            localStorage.setItem('restaurant_theme', 'dark');
+            if (themeToggle) themeToggle.innerHTML = '🌙';
+        }
     }
-    // форма бронирования
-    const reserveForm = document.getElementById('reserveForm');
-    if(reserveForm) {
-        reserveForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Бронирование отправлено! Мы свяжемся с вами для подтверждения.');
-            reserveForm.reset();
-        });
-    }
-    renderProductGrid('menuGrid', products.menu);
-    renderProductGrid('seasonalGrid', products.seasonal);
-    renderProductGrid('barGrid', products.bar);
+    const savedTheme = localStorage.getItem('restaurant_theme');
+    if (savedTheme === 'light') setTheme('light');
+    else setTheme('dark');
+    themeToggle?.addEventListener('click', () => {
+        const isLight = document.body.classList.contains('light-theme');
+        isLight ? setTheme('dark') : setTheme('light');
+    });
+
+    initAllGrids();
     updateCartUI();
 </script>
 </body>
